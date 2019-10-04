@@ -29,6 +29,7 @@ Und Bilder kann man mit self.image('Dateiname.jpg, 8, 33) einfuegen
 """
  
 import os
+from os import listdir
 from fpdf import FPDF
 
 
@@ -41,7 +42,20 @@ def erzeuge_pdf():
     pdf = FPDF(orientation='L', unit='mm', format='A4')
     pdf.add_page()
     pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, txt="Test der Fotowand", ln=1, align="C") # C: Center
+    pdf.cell(200, 10, txt="Test von die Fotowand", ln=1, align="C") # C: Center
+
+    alleBilder = []
+    filepath = __file__.rstrip("fotowand.py") + "fotos\\"   #Pfad vom Code - codename + fotos
+    filedir = listdir(filepath)                             #alle Dateien im Odner
+    for Pfad in filedir:
+        absolute_pathe = filepath + Pfad                    #ganzer Filepath von allen Bildern
+        alleBilder.append(absolute_pathe)
+    print (alleBilder)
+
+    for Foto in alleBilder:
+        pdf.image(name=Foto, w=25)
+
+
     pdf.output("fotowand.pdf")
 
 def lese_kuerzel_ein():
@@ -110,10 +124,10 @@ def generiere_einzelseiten(matritze):
     m4 = [] # vierte Seite, also Spalten 19-24
 
     # ab hier die untere Haelfte der Matrix
-    m5 = [] # fünfte Seite, also Spalten 1-6
-    m6 = [] # sechste Seite, also Spalten 7-12
-    m7 = [] # siebte Seite, also Spalten 13-18
-    m8 = [] # achte Seite, also Spalten 19-24
+    m5 = [] # fünfte Seite, also Spalten 25-30
+    m6 = [] # sechste Seite, also Spalten 31-36
+    m7 = [] # siebte Seite, also Spalten 37-42
+    m8 = [] # achte Seite, also Spalten 43-48
     
 
     for zeile in range(0,4):
@@ -145,11 +159,10 @@ def generiere_einzelseiten(matritze):
 
 
 lese_kuerzel_ein()
-erzeuge_pdf()
 
 m = erzeuge_matrize()
 generiere_einzelseiten(m)
-
+erzeuge_pdf()
 
 
 
